@@ -5,7 +5,7 @@
 <img src="https://img.shields.io/badge/Version-1.0.0-orange?style=flat-square" />
 <img src="https://img.shields.io/badge/Min%20SDK-24-red?style=flat-square" />
 
-# 💰 Finance Tracker
+<h2 align="center">💰 Finance Tracker</h2>
 
 **A powerful personal finance management app built with modern Android technologies.**  
 Track your income, expenses, budgets, and get detailed analytics — all in one place.
@@ -16,7 +16,7 @@ Track your income, expenses, budgets, and get detailed analytics — all in one 
 
 ---
 
-## ✨ Features
+<h2 align="center">✨ Features</h2>
 
 - 🏠 **Dashboard** — Get a quick overview of your financial health
 - 💳 **Transactions** — Add, edit, and manage income & expenses
@@ -27,7 +27,7 @@ Track your income, expenses, budgets, and get detailed analytics — all in one 
 
 ---
 
-## 🛠️ Tech Stack
+<h2 align="center">🛠️ Tech Stack</h2>
 
 | Category | Technology |
 |----------|-----------|
@@ -43,14 +43,14 @@ Track your income, expenses, budgets, and get detailed analytics — all in one 
 
 ---
 
-## 📱 Requirements
+<h2 align="center">📱 Requirements</h2>
 
 - Android 7.0 (API 24) or higher
 - ~19 MB storage space
 
 ---
 
-## 🚀 Installation
+<h2 align="center">🚀 Installation</h2>
 
 ### Option 1 — Direct Download
 Click the **Download APK** button above and install on your Android device.
@@ -66,7 +66,7 @@ cd finance-tracker/finance-tracker
 
 ---
 
-## 📁 Project Structure
+<h2 align="center">📁 Project Structure</h2>
 
 | Folder | Description |
 |--------|-------------|
@@ -78,14 +78,17 @@ cd finance-tracker/finance-tracker
 
 ---
 
-## 👨‍💻 Developer
-
-**SK Sazzad**  
-[![GitHub](https://img.shields.io/badge/GitHub-sk--sazzad-black?style=flat-square&logo=github)](https://github.com/sk-sazzad)
-[![Website](https://img.shields.io/badge/Website-sazzad.site-blue?style=flat-square&logo=google-chrome)](https://sazzad.site)
-
 ---
 
 <div align="center">
-⭐ If you like this project, please give it a star!
+
+## 👨‍💻 Developer
+
+**SK Sazzad**
+
+[![GitHub](https://img.shields.io/badge/GitHub-sk--sazzad-black?style=flat-square&logo=github)](https://github.com/sk-sazzad)
+[![Website](https://img.shields.io/badge/Website-sazzad.site-blue?style=flat-square&logo=google-chrome)](https://sazzad.site)
+
 </div>
+
+---

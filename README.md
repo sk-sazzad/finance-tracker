@@ -67,16 +67,14 @@ cd finance-tracker/finance-tracker
 ---
 
 ## 📁 Project Structure
-finance-tracker/
-├── app/
-│   └── src/main/java/com/example/
-│       ├── data/
-│       │   ├── local/          # Room DB, DAO, Entities
-│       │   └── repository/     # Repository layer
-│       ├── presentation/
-│       │   ├── screens/        # UI Screens
-│       │   └── viewmodel/      # ViewModels
-│       └── ui/theme/           # App Theme & Colors
+
+| Folder | Description |
+|--------|-------------|
+| `data/local/` | Room Database, DAO, Entities |
+| `data/repository/` | Repository Pattern Layer |
+| `presentation/screens/` | All UI Screens |
+| `presentation/viewmodel/` | ViewModels |
+| `ui/theme/` | App Theme & Colors |
 
 ---
 

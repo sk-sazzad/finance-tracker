@@ -10,7 +10,7 @@
 **A powerful personal finance management app built with modern Android technologies.**  
 Track your income, expenses, budgets, and get detailed analytics — all in one place.
 
-[![Download APK](https://img.shields.io/badge/⬇️%20Download%20APK-v1.0.0-brightgreen?style=for-the-badge)](https://github.com/sk-sazzad/finance-tracker/releases/download/v1.0.0/Finance-Tracker-v1.0.0.apk)
+[![Download APK](https://img.shields.io/badge/⬇️%20Download%20APK-v1.0.0-brightgreen?style=for-the-badge)](https://github.com/sk-sazzad/finance-tracker/releases/download/latest/Finance-Tracker-latest.apk)
 
 </div>
 

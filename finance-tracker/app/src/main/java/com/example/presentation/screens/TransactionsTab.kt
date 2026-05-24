@@ -57,6 +57,7 @@ fun TransactionsTab(
 
     var showAddSheet by remember { mutableStateOf(false) }
     var transactionToEdit by remember { mutableStateOf<TransactionEntity?>(null) }
+    var showAddCategoryDialogType by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -319,9 +320,63 @@ fun TransactionsTab(
                     }
                     showAddSheet = false
                     transactionToEdit = null
+                },
+                onAddCategory = { type ->
+                    showAddCategoryDialogType = type
                 }
             )
         }
+    }
+
+    if (showAddCategoryDialogType != null) {
+        var catName by remember { mutableStateOf("") }
+        var catEmoji by remember { mutableStateOf("📦") }
+        
+        AlertDialog(
+            onDismissRequest = { showAddCategoryDialogType = null },
+            title = { Text("Add Custom Category", color = Color.White) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Text("Type: ${showAddCategoryDialogType}", color = TextSecondaryDark, fontSize = 12.sp)
+                    OutlinedTextField(
+                        value = catName,
+                        onValueChange = { catName = it },
+                        label = { Text("Category Name", color = TextSecondaryDark) },
+                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White)
+                    )
+                    OutlinedTextField(
+                        value = catEmoji,
+                        onValueChange = { catEmoji = it },
+                        label = { Text("Emoji/Icon", color = TextSecondaryDark) },
+                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White)
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (catName.isNotEmpty() && catEmoji.isNotEmpty()) {
+                            viewModel.addCategory(
+                                name = catName,
+                                icon = catEmoji,
+                                color = "#8B5CF6", // default brand color
+                                type = showAddCategoryDialogType!!
+                            )
+                            showAddCategoryDialogType = null
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = ElectricPurple)
+                ) {
+                    Text("Add")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showAddCategoryDialogType = null }) {
+                    Text("Cancel", color = Color.White)
+                }
+            },
+            containerColor = Color(0xFF1E293B)
+        )
     }
 }
 
@@ -385,7 +440,8 @@ fun AddTransactionSheetContent(
     categories: List<CategoryEntity>,
     wallets: List<WalletEntity>,
     transactionToEdit: TransactionEntity? = null,
-    onSave: (amount: Double, type: String, categoryId: Long, walletId: Long, isRecurring: Boolean, note: String, tags: String) -> Unit
+    onSave: (amount: Double, type: String, categoryId: Long, walletId: Long, isRecurring: Boolean, note: String, tags: String) -> Unit,
+    onAddCategory: (type: String) -> Unit
 ) {
     var amountStr by remember { mutableStateOf(transactionToEdit?.amount?.toString() ?: "") }
     var selectedType by remember { mutableStateOf(transactionToEdit?.type ?: "EXPENSE") } // "EXPENSE" or "INCOME"
@@ -515,6 +571,24 @@ fun AddTransactionSheetContent(
                         Text(cat.icon)
                         Text(cat.name, color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                     }
+                }
+            }
+            
+            // Add custom category button
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFF1E293B))
+                    .border(1.dp, Color(0x33FFFFFF), RoundedCornerShape(12.dp))
+                    .clickable { onAddCategory(selectedType) }
+                    .padding(horizontal = 14.dp, vertical = 10.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add", tint = Color.White, modifier = Modifier.size(14.dp))
+                    Text("Add Custom", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                 }
             }
         }

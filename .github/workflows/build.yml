@@ -22,9 +22,6 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x finance-tracker/gradlew
 
-      - name: Create .env file
-        run: cp finance-tracker/.env.example finance-tracker/.env
-
       - name: Build Debug APK
         working-directory: finance-tracker
         run: ./gradlew assembleDebug

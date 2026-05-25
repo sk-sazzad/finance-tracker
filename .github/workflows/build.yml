@@ -28,7 +28,9 @@ jobs:
         run: |
           python3 -c "
           import base64, os
-          data = base64.b64decode(os.environ['KEYSTORE_BASE64'])
+          s = os.environ['KEYSTORE_BASE64']
+          s += '=' * (-len(s) % 4)
+          data = base64.b64decode(s)
           open('finance-tracker/finance-tracker.jks', 'wb').write(data)
           "
 

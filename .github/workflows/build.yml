@@ -30,6 +30,8 @@ jobs:
         working-directory: finance-tracker
         run: |
           ./gradlew assembleRelease \
+            -Pandroid.injected.version.code=${{ github.run_number }} \
+            -Pandroid.injected.version.name="1.${{ github.run_number }}" \
             -Pandroid.injected.signing.store.file=$(pwd)/finance-tracker.jks \
             -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
             -Pandroid.injected.signing.key.alias=finance-tracker \

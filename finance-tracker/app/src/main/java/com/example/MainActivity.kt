@@ -1,0 +1,224 @@
+package com.example
+
+import android.os.Build
+import android.os.Bundle
+import android.content.Intent
+import android.net.Uri
+import kotlinx.coroutines.delay
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.core.app.ActivityCompat
+import androidx.compose.animation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ListAlt
+import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.Category
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
+import com.example.data.local.db.FinanceDatabase
+import com.example.data.local.preferences.UserPreferencesManager
+import com.example.data.repository.FinanceRepository
+import com.example.notifications.NotificationHelper
+import com.example.notifications.NotificationScheduler
+import com.example.presentation.screens.*
+import com.example.presentation.viewmodel.FinanceViewModel
+import com.example.presentation.viewmodel.FinanceViewModelFactory
+import com.example.ui.theme.DarkBackground
+import com.example.ui.theme.ElectricPurple
+import com.example.ui.theme.MyApplicationTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_MyApplication)
+        enableEdgeToEdge()
+
+        NotificationHelper.createNotificationChannel(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                101
+            )
+        }
+        NotificationScheduler.scheduleDailySummary(this)
+
+        // Core singletons instantiation
+        val database = FinanceDatabase.getDatabase(this)
+        val repository = FinanceRepository(applicationContext, database.financeDao(), database.debtDao())
+        val userPreferencesManager = UserPreferencesManager(this)
+        val factory = FinanceViewModelFactory(application, repository, userPreferencesManager)
+        
+        val viewModel = ViewModelProvider(this, factory)[FinanceViewModel::class.java]
+
+        window.statusBarColor = android.graphics.Color.parseColor("#0A0E1A")
+        window.navigationBarColor = android.graphics.Color.parseColor("#0A0E1A")
+
+        setContent {
+            val themePreference by viewModel.appTheme.collectAsState()
+            val isDarkSystem = androidx.compose.foundation.isSystemInDarkTheme()
+            val isDarkTheme = when (themePreference) {
+                "DARK" -> true
+                "LIGHT" -> false
+                else -> isDarkSystem
+            }
+
+            MyApplicationTheme(darkTheme = isDarkTheme) {
+                var showSplash by remember { mutableStateOf(true) }
+                var currentTab by remember { mutableIntStateOf(0) }
+
+                LaunchedEffect(showSplash) {
+                    if (!showSplash) {
+                        delay(5000)
+                        // Test notification to verify system works
+                        // Existing update check
+                        viewModel.checkForUpdates(applicationContext)
+                    }
+                }
+
+                val updateInfo by viewModel.updateInfo.collectAsState()
+
+                updateInfo?.let { info ->
+                    UpdateAvailableDialog(
+                        info = info,
+                        onDownload = {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(info.downloadUrl))
+                            startActivity(intent)
+                            // Save the current APK timestamp so dialog doesn't show again
+                            viewModel.markUpdateAsSeen(applicationContext, info.apkUpdatedAt)
+                            viewModel.dismissUpdate()
+                        },
+                        onDismiss = { viewModel.dismissUpdate() }
+                    )
+                }
+
+                AnimatedContent(
+                    targetState = showSplash,
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    label = "SplashTransition"
+                ) { isSplash ->
+                    if (isSplash) {
+                        SplashScreen(onFinished = { showSplash = false })
+                    } else {
+                        Scaffold(
+                            modifier = Modifier.fillMaxSize(),
+                            containerColor = if (isDarkTheme) DarkBackground else MaterialTheme.colorScheme.background,
+                            bottomBar = {
+                                NavigationBar(
+                                    containerColor = MaterialTheme.colorScheme.surface,
+                                    tonalElevation = 8.dp
+                                ) {
+                                    NavigationBarItem(
+                                        selected = currentTab == 0,
+                                        onClick = { currentTab = 0 },
+                                        icon = { Icon(Icons.Rounded.Home, contentDescription = "Dashboard") },
+                                        label = { Text("Home") },
+                                        colors = NavigationBarItemDefaults.colors(
+                                            selectedIconColor = ElectricPurple,
+                                            selectedTextColor = ElectricPurple,
+                                            unselectedIconColor = Color.Gray,
+                                            unselectedTextColor = Color.Gray,
+                                            indicatorColor = Color.Transparent
+                                        )
+                                    )
+
+                                    NavigationBarItem(
+                                        selected = currentTab == 1,
+                                        onClick = { currentTab = 1 },
+                                        icon = { Icon(Icons.Filled.ListAlt, contentDescription = "Ledger") },
+                                        label = { Text("Statements") },
+                                        colors = NavigationBarItemDefaults.colors(
+                                            selectedIconColor = ElectricPurple,
+                                            selectedTextColor = ElectricPurple,
+                                            unselectedIconColor = Color.Gray,
+                                            unselectedTextColor = Color.Gray,
+                                            indicatorColor = Color.Transparent
+                                        )
+                                    )
+
+                                    NavigationBarItem(
+                                        selected = currentTab == 2,
+                                        onClick = { currentTab = 2 },
+                                        icon = { Icon(Icons.Rounded.Category, contentDescription = "Budgets") },
+                                        label = { Text("Budgets") },
+                                        colors = NavigationBarItemDefaults.colors(
+                                            selectedIconColor = ElectricPurple,
+                                            selectedTextColor = ElectricPurple,
+                                            unselectedIconColor = Color.Gray,
+                                            unselectedTextColor = Color.Gray,
+                                            indicatorColor = Color.Transparent
+                                        )
+                                    )
+
+                                    NavigationBarItem(
+                                        selected = currentTab == 3,
+                                        onClick = { currentTab = 3 },
+                                        icon = { Icon(Icons.Rounded.BarChart, contentDescription = "Insights") },
+                                        label = { Text("Insights") },
+                                        colors = NavigationBarItemDefaults.colors(
+                                            selectedIconColor = ElectricPurple,
+                                            selectedTextColor = ElectricPurple,
+                                            unselectedIconColor = Color.Gray,
+                                            unselectedTextColor = Color.Gray,
+                                            indicatorColor = Color.Transparent
+                                        )
+                                    )
+
+                                    NavigationBarItem(
+                                        selected = currentTab == 4,
+                                        onClick = { currentTab = 4 },
+                                        icon = { Icon(Icons.Rounded.Settings, contentDescription = "Vault Config") },
+                                        label = { Text("Vault") },
+                                        colors = NavigationBarItemDefaults.colors(
+                                            selectedIconColor = ElectricPurple,
+                                            selectedTextColor = ElectricPurple,
+                                            unselectedIconColor = Color.Gray,
+                                            unselectedTextColor = Color.Gray,
+                                            indicatorColor = Color.Transparent
+                                        )
+                                    )
+                                }
+                            }
+                        ) { innerPadding ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(innerPadding)
+                                    .imePadding()
+                            ) {
+                                AnimatedContent(
+                                    targetState = currentTab,
+                                    transitionSpec = {
+                                        fadeIn() togetherWith fadeOut()
+                                    },
+                                    label = "tabTransition"
+                                ) { targetTab ->
+                                    when (targetTab) {
+                                        0 -> DashboardTab(
+                                            viewModel = viewModel,
+                                            onNavigateToTransactions = { currentTab = 1 },
+                                            onNavigateToAnalytics = { currentTab = 3 }
+                                        )
+                                        1 -> TransactionsTab(viewModel = viewModel)
+                                        2 -> BudgetTab(viewModel = viewModel)
+                                        3 -> AnalyticsTab(viewModel = viewModel)
+                                        4 -> ToolsTab(viewModel = viewModel)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

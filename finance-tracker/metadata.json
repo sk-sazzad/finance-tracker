@@ -1,0 +1,6 @@
+{
+  "name": "Finance Tracker",
+  "description": "A premium personal finance tracker with transaction list, wallets, budgets, analytics, savings goals, calendar view, backup/export, and gamification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

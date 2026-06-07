@@ -1,0 +1,66 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Premium Shield / Diamond Crest Outer Glowing Frame -->
+    <path
+        android:fillColor="#6C63FF"
+        android:pathData="M 54 23 C 55.5 23 57 24.5 58 25.5 L 82.5 50 C 83.5 51 84 52.5 84 54 C 84 55.5 83.5 57 82.5 58 L 58 82.5 C 57 83.5 55.5 84 54 84 C 52.5 84 51 83.5 50 82.5 L 25.5 58 C 24.5 57 24 55.5 24 54 C 24 52.5 24.5 51 25.5 50 L 50 25.5 C 51 24.5 52.5 23 54 23 Z" />
+
+    <!-- Inner Dark Plate for high contrast -->
+    <path
+        android:pathData="M 54 26 C 55.2 26 56.4 27 57.2 27.8 L 79.8 50.4 C 80.6 51.2 81 52.5 81 54 C 81 55.5 80.6 56.8 79.8 57.6 L 57.2 80.2 C 56.4 81 55.2 82 54 82 C 52.8 82 51.6 81 50.8 80.2 L 28.2 57.6 C 27.4 56.8 27 55.5 27 54 C 27 52.5 27.4 51.2 28.2 50.4 L 50.8 27.8 C 51.6 27 52.8 26 54 26 Z"
+        android:fillColor="#111827" />
+
+    <!-- Three Rounded Rising Mint-Teal Columns (Budget / Income growth) -->
+    <!-- Column 1 (Left, 12dp tall) -->
+    <path
+        android:fillColor="#00D4AA"
+        android:pathData="M 59 55 C 59 53.9 59.9 53 61 53 C 62.1 53 63 53.9 63 55 L 63 65 C 63 66.1 62.1 67 61 67 C 59.9 67 59 66.1 59 65 Z" />
+
+    <!-- Column 2 (Middle, 20dp tall) -->
+    <path
+        android:fillColor="#00A880"
+        android:pathData="M 66 47 C 66 45.9 66.9 45 68 45 C 69.1 45 70 45.9 70 47 L 70 65 C 70 66.1 69.1 67 68 67 C 66.9 67 66 66.1 66 65 Z" />
+
+    <!-- Column 3 (Right, 30dp tall) -->
+    <path
+        android:fillColor="#0E98A5"
+        android:pathData="M 73 37 C 73 35.9 73.9 35 75 35 C 76.1 35 77 35.9 77 37 L 77 65 C 77 66.1 76.1 67 75 67 C 73.9 67 73 66.1 73 65 Z" />
+
+    <!-- Stylized Floating Golden Coin Base -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M 44 41 C 50.08 41 55 45.92 55 52 C 55 58.08 50.08 63 44 63 C 37.92 63 33 58.08 33 52 C 33 45.92 37.92 41 44 41 Z" />
+
+    <!-- Inner Golden Circle (Embossed look) -->
+    <path
+        android:fillColor="#F59E0B"
+        android:pathData="M 44 44 C 48.42 44 52 47.58 52 52 C 52 56.42 48.42 60 44 60 C 39.58 60 36 56.42 36 52 C 36 47.58 39.58 44 44 44 Z" />
+
+    <!-- Sparkling Golden Cutout Diamond Center inside the coin -->
+    <path
+        android:pathData="M 44 47 L 47 52 L 44 57 L 41 52 Z"
+        android:fillColor="#FFFFFF" />
+
+    <!-- Upward trend arrow overlaying behind the stars & badge -->
+    <path
+        android:pathData="M 33 60 L 46 51 Q 50 48 55 43 L 73 29 M 73 29 L 66 29 M 73 29 L 73 36"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#FFFFFF" />
+
+    <!-- Top Left Sparkling Star -->
+    <path
+        android:pathData="M 32 29 C 32 30.5 31.5 31 30 31 C 31.5 31 32 31.5 32 33 C 32 31.5 32.5 31 34 31 C 32.5 31 32 30.5 32 29 Z"
+        android:fillColor="#FFD54F" />
+
+    <!-- Mid Right Sparkling Star -->
+    <path
+        android:pathData="M 77 48 C 77 49 76.5 49.5 75.5 49.5 C 76.5 49.5 77 50 77 51 C 77 50 77.5 49.5 78.5 49.5 C 77.5 49.5 77 49 77 48 Z"
+        android:fillColor="#00D4AA" />
+
+</vector>
